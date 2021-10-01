@@ -1,14 +1,14 @@
-public class Map{
-    public static class Node{
+public class Map {
+    public static class Node {
         public Object key;
         public Object value;
 
-        Node(){
+        Node() {
             key = null;
             value = null;
         }
 
-        Node(Object k, Object val){
+        Node(Object k, Object val) {
             value = val;
             key = k;
         }
@@ -17,42 +17,42 @@ public class Map{
     private int size;
     private Node[] list;
 
-    Map(){
+    Map() {
         size = 0;
     }
 
-    Map(Node a){
+    Map(Node a) {
         size = 1;
         list = new Node[1];
         list[0] = a;
     }
 
-    Map(int s, Node... nodes){
+    Map(int s, Node... nodes) {
         size = s;
         list = nodes;
     }
 
-    public void put(Object k, Object val){
-        for(int i = 0; i < size; i++){
-            if(list[i].key == k) {
+    public void put(Object k, Object val) {
+        for (int i = 0; i < size; i++) {
+            if (list[i].key == k) {
                 list[i].value = val;
                 return;
             }
         }
-        Node[] new_list = new Node[++size];
+        Node[] newList = new Node[++size];
 
-        for(int i = 0; i < size-1; i++)
-            new_list[i] = list[i];
+        for (int i = 0; i < size - 1; i++)
+            newList[i] = list[i];
 
         Node new_node = new Node(k, val);
-        new_list[size-1] = new_node;
+        newList[size - 1] = new_node;
         list = new Node[size];
-        list = new_list;
+        list = newList;
     }
 
-    public Object get(Object k){
+    public Object get(Object k) {
         int i = 0;
-        while(i < size){
+        while (i < size) {
             if (list[i].key == k)
                 return list[i].value;
             i++;
@@ -60,9 +60,9 @@ public class Map{
         return null;
     }
 
-    public Object get(Object k, Object bydefault){
-        for(int i = 0; i < size; i++){
-            if(list[i].key == k) {
+    public Object get(Object k, Object bydefault) {
+        for (int i = 0; i < size; i++) {
+            if (list[i].key == k) {
                 if (list[i].value != null)
                     return list[i].value;
                 else return bydefault;
@@ -71,19 +71,19 @@ public class Map{
         return null;
     }
 
-    public Object remove(Object k){
+    public Object remove(Object k) {
         Object val = null;
-        for(int i = 0; i < size; i++){
-            if(list[i].key == k) {
+        for (int i = 0; i < size; i++) {
+            if (list[i].key == k) {
                 val = list[i].value;
                 break;
             }
         }
-        if(val != null){
-            Node[] upd_array = new Node[size-1];
+        if (val != null) {
+            Node[] upd_array = new Node[size - 1];
             int j = 0;
-            for (int i = 0; i < size; i++){
-                if(list[i].key == k)
+            for (int i = 0; i < size; i++) {
+                if (list[i].key == k)
                     continue;
                 upd_array[j] = list[i];
                 j++;
@@ -95,44 +95,44 @@ public class Map{
         return val;
     }
 
-    public boolean keyContains(Object k){
-        for(int i = 0; i < size; i++){
-            if(list[i].key == k)
+    public boolean keyContains(Object k) {
+        for (int i = 0; i < size; i++) {
+            if (list[i].key == k)
                 return true;
         }
         return false;
     }
 
-    public List getKeys(){
+    public List getKeys() {
         List l = new List();
-        for(int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             l.add(list[i].key);
         }
         return l;
     }
 
-    public List getValues(){
+    public List getValues() {
         List l = new List();
-        for(int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             l.add(list[i].value);
         }
         return l;
     }
 
-    public List getEntries(){
+    public List getEntries() {
         List l = new List();
-        for(int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             l.add(list[i]);
         }
         return l;
     }
 
-    public int getSize(){
+    public int getSize() {
         return size;
     }
 
-    public boolean isEmpty(){
-        if(size > 0)
+    public boolean isEmpty() {
+        if (size > 0)
             return false;
         else return true;
     }

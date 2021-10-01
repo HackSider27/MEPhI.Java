@@ -53,7 +53,7 @@ public class List{
 
     Object remove(int index){
 
-        if(index > size)
+        if(index > size || index <0)
             return null;
 
         Object[] upd_list = new Object[size-1];
@@ -71,7 +71,7 @@ public class List{
     }
 
     Object get(int index){
-        if (index > size)
+        if (index > size || index < 0)
             return null;
         else return list[index];
     }
@@ -95,13 +95,16 @@ public class List{
     }
 
     int indexOf(Object value){
-        int i = 0;
-        while(list[i] != value)
-            i++;
-        return i;
+        for(int i = 0; i < size; i++){
+            if(list[i] == value)
+                return i;
+        }
+       return -1;
     }
 
     void set(Object value, int index){
+        if(index < 0)
+            list[0] = value;
         list[index]=value;
     }
 }

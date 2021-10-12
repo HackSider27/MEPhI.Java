@@ -24,5 +24,8 @@ public class main {
 
         for (Map.Entry<String, Integer> help : map.entrySet())
             System.out.println(help.getKey() + ": " + help.getValue());
+
+        for (Map.Entry<String, Integer> help : map.entrySet())
+            System.out.print(help.getKey() + " ");
     }
 }

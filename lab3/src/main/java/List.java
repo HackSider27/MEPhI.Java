@@ -2,22 +2,22 @@ import java.security.cert.TrustAnchor;
 import java.util.Scanner;
 
 public class List {
-    private Object[] list;
+    private int[] list;
     private int size;
 
     List() {
         size = 0;
     }
 
-    List(Object a) {
+    List(int a) {
         size = 1;
-        list = new Object[size];
+        list = new int[size];
         list[0] = a;
     }
 
-    List(Object[] a) {
+    List(int[] a) {
         size = a.length;
-        list = new Object[a.length];
+        list = new int[a.length];
         list = a;
     }
 
@@ -25,9 +25,9 @@ public class List {
      * <p>Перегруженный метод добавления элемента "val" в текущий список</p>
      * @param val - объект добавления в список
      */
-    void add(Object val) {
+    void add(int val) {
         size++;
-        Object[] new_list = new Object[size];
+        int[] new_list = new int[size];
         for (int i = 0; i < size - 1; i++)
             new_list[i] = list[i];
         new_list[size - 1] = val;
@@ -39,7 +39,7 @@ public class List {
      * @param val - объект добавления в список
      * @param ind - позиция добавляемого объекта
      */
-    void add(Object val, int ind) {
+    void add(int val, int ind) {
         if (ind >= size) {
             ind = size;
             add(val);
@@ -47,7 +47,7 @@ public class List {
         }
 
         size++;
-        Object[] help_list = new Object[size];
+        int[] help_list = new int[size];
         for (int i = 0, j = 0; i < size; i++, j++) {
             if (i != ind)
                 help_list[i] = list[j];
@@ -65,32 +65,32 @@ public class List {
      * @param index - позиция удаляемого объекта
      * @return Возращает удаляемый объект или null в случае отстуствие данного индекса или элемента на данной позиции
      */
-    Object remove(int index) {
+    int remove(int index) {
 
         if (index > size || index < 0)
-            return null;
+            return -1;
 
-        Object[] upd_list = new Object[size - 1];
+        int[] upd_list = new int[size - 1];
         int j = 0;
-        Object res = list[index];
+        int res = list[index];
         for (int i = 0; i < size; i++) {
             if (i == index)
                 continue;
             upd_list[j] = list[i];
             j++;
         }
-        list = new Object[size--];
+        list = new int[size--];
         list = upd_list;
         return res;
     }
 
-    Object get(int index) {
+    int get(int index) {
         if (index > size || index < 0)
-            return null;
+            return -1;
         else return list[index];
     }
 
-    boolean contains(Object value) {
+    boolean contains(int value) {
         for (int i = 0; i < size; i++) {
             if (list[i] == value)
                 return true;
@@ -108,7 +108,7 @@ public class List {
         return size;
     }
 
-    int indexOf(Object value) {
+    int indexOf(int value) {
         for (int i = 0; i < size; i++) {
             if (list[i] == value)
                 return i;
@@ -116,7 +116,7 @@ public class List {
         return -1;
     }
 
-    void set(Object value, int index) {
+    void set(int value, int index) {
         if (index < 0)
             list[0] = value;
         list[index] = value;
@@ -127,9 +127,9 @@ public class List {
      * @param head - спиок для объеденения с текущим
      * @return Возвращает список после слияния двух исходных
      */
-    public Object[] merge(Object[] head) {
+    public int[] merge(int[] head) {
         int allsize = size + head.length;
-        Object[] help = new Object[allsize];
+        int[] help = new int[allsize];
 
         int help1 = 0, help2 = 0;
 
@@ -143,7 +143,7 @@ public class List {
                 help[i] = head[help2];
                 help2++;
             }
-            if (list[help1].hashCode() >= head[help2].hashCode()) {
+            if (list[help1] >= head[help2]) {
                 help[i] = head[help2];
                 help2++;
             } else {
@@ -151,7 +151,7 @@ public class List {
                 help1++;
             }
         }
-        list = new Object[allsize];
+        list = new int[allsize];
         list = head;
         return list;
     }

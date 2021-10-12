@@ -23,6 +23,7 @@ public class List {
 
     /**
      * <p>Перегруженный метод добавления элемента "val" в текущий список</p>
+     *
      * @param val - объект добавления в список
      */
     void add(int val) {
@@ -36,6 +37,7 @@ public class List {
 
     /**
      * <p>Перегруженный метод добавления элемента "val" в текущий список на позицию "ind"</p>
+     *
      * @param val - объект добавления в список
      * @param ind - позиция добавляемого объекта
      */
@@ -62,6 +64,7 @@ public class List {
 
     /**
      * <p>Метод удаления объекта по индексу "ind" </p>
+     *
      * @param index - позиция удаляемого объекта
      * @return Возращает удаляемый объект или null в случае отстуствие данного индекса или элемента на данной позиции
      */
@@ -124,36 +127,36 @@ public class List {
 
     /**
      * <p>Объеденения двух отсортированных списков в один новый</p>
+     *
      * @param head - спиок для объеденения с текущим
      * @return Возвращает список после слияния двух исходных
      */
-    public int[] merge(int[] head) {
-        int allsize = size + head.length;
-        int[] help = new int[allsize];
+    public List merge(List head) {
+        int allsize = size + head.size;
+        List help = new List();
 
         int help1 = 0, help2 = 0;
 
         for (int i = 0; i < allsize; i++) {
-            if (help2 >= head.length) {
-                help[i] = list[help1];
+            if (help2 >= head.size) {
+                help.add(list[help1]);
                 help1++;
                 continue;
             }
             if (help1 >= size) {
-                help[i] = head[help2];
+                help.add(head.get(help2));
                 help2++;
+                continue;
             }
-            if (list[help1] >= head[help2]) {
-                help[i] = head[help2];
+            if (list[help1] >= head.get(help2   )) {
+                help.add(head.get(help2));
                 help2++;
             } else {
-                help[i] = list[help1];
+                help.add(list[help1]);
                 help1++;
             }
         }
-        list = new int[allsize];
-        list = head;
-        return list;
+        return help;
     }
 }
 

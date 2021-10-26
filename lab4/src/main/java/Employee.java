@@ -19,28 +19,6 @@ public class Employee {
     private String state; //область
     private int code; //код области
 
-    public enum Gender {
-        MALE,
-        FEMALE;
-
-        public static Gender getRandomGender() {
-            Random random = new Random();
-            return values()[random.nextInt(values().length)];
-        }
-    }
-
-    public enum Role {
-        STAFF,
-        MANAGER,
-        EXECUTIVE;
-
-
-        public static Role getRandomRole() {
-            Random random = new Random();
-            return values()[random.nextInt(values().length)];
-        }
-    }
-
     /*Constructors*/
     private Employee(Builder builder) {
         givenName = builder.givenName;

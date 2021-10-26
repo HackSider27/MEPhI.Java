@@ -1,6 +1,9 @@
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.List;
+//import java.util.function.BiPredicate;
+//import java.util.function.Function;
+//import java.util.function.Consumer;
 
 public class main {
 
@@ -11,6 +14,8 @@ public class main {
         List<Employee> employeeList = Employee.createShortList();
         Employee employee = new Employee();
 
+        //BiPredicate<Employee, String> Surname = (t, s) -> t.getSurName().equals(s);
+
         System.out.println("Which one do you want?");
         System.out.println("[1] Payment of premiums to women employees.");
         System.out.println("[2] Payment of salaries to employees of a specific department.");
@@ -20,27 +25,39 @@ public class main {
 
         switch (in.nextInt()) {
             case (1):
+                System.out.println("Pay premium to female employees");
                 //for (int i = 0; i < employeeList.size(); i++) {
                 //employee = (Employee) employeeList.get(i);
-                BiPredicate<Employee> female = t -> t.getGender().equals(Employee.Gender.FEMALE);
+                BiPredicate<Employee, Gender> female = (t, s) -> t.getGender().equals(s);
                 for (Employee e : employeeList) {
-                    if (female.test(e)) {
+                   // Employee i = new Employee();
+                    if (female.test(e,Gender.FEMALE)) {
                         Accountant.payPremium(e);
                     }
                 }
                 System.out.println(System.lineSeparator());
 
             case (2):
+                System.out.println("Pay salary to employees of current dep");
                 System.out.println("What department?");
                 int curDept1 = in.nextInt();
 
-                employeeList.stream()
-                        .filter(p -> p.getDept() == curDept1);
-                for (Employee e : employeeList)
-                    Accountant.paySalary(e);
+                Function<Employee, String[]> mainInfo = t ->
+                        new String[]{t.getGivenName(), t.getSurName(), String.valueOf(t.getDept())};
+
+                Consumer<String[]> makeIt = t ->
+                        System.out.println("Given Name: " + t[0] + ", Surname: " + t[1] + ", Dept: " + t[2]);
+
+                employeeList.stream().forEach(t -> makeIt.accept(mainInfo.apply(t)));
+
+                for (Employee e : employeeList) {
+                    if (e.getDept() == curDept1)
+                        Accountant.paySalary(e);
+                }
                 System.out.println(System.lineSeparator());
 
             case (3):
+                System.out.println("Pay premium employees up to 30, working in current department");
                 System.out.println("What department?");
                 int curDept2 = in.nextInt();
 
@@ -63,17 +80,19 @@ public class main {
                 System.out.println(System.lineSeparator());
 
             case (4):
+                System.out.println("Pay salaries to manager");
                 for (int i = 0; i < employeeList.size(); i++) {
-                    employee = (Employee) employeeList.get(i);
-                    if (employee.getRole() == Employee.Role.MANAGER)
+                    employee = employeeList.get(i);
+                    if (employee.getRole().equals(Role.MANAGER))
                         Accountant.paySalary(employee);
                 }
                 System.out.println(System.lineSeparator());
 
             case (5):
+                System.out.println("Pay premium to staff");
                 for (int i = 0; i < employeeList.size(); i++) {
-                    employee = (Employee) employeeList.get(i);
-                    if (employee.getRole() == Employee.Role.STAFF)
+                    employee = employeeList.get(i);
+                    if (employee.getRole().equals(Role.STAFF))
                         Accountant.payPremium(employee);
                 }
         }

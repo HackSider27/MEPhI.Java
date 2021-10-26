@@ -1,6 +1,6 @@
 import java.util.function.*;
 
-public interface BiPredicate<Employee>  {
-    boolean test(Employee employee);
+public interface BiPredicate<Employee, S>  {
+    boolean test(Employee employee, S s);
 }
 

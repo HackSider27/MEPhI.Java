@@ -1,9 +1,5 @@
-import java.util.LinkedList;
-import java.util.Scanner;
-import java.util.List;
-//import java.util.function.BiPredicate;
-//import java.util.function.Function;
-//import java.util.function.Consumer;
+import java.util.*;
+import java.util.function.*;
 
 public class main {
 
@@ -14,7 +10,7 @@ public class main {
         List<Employee> employeeList = Employee.createShortList();
         Employee employee = new Employee();
 
-        //BiPredicate<Employee, String> Surname = (t, s) -> t.getSurName().equals(s);
+        SomeGoodMethods4.lab4();
 
         System.out.println("Which one do you want?");
         System.out.println("[1] Payment of premiums to women employees.");
@@ -41,14 +37,6 @@ public class main {
                 System.out.println("Pay salary to employees of current dep");
                 System.out.println("What department?");
                 int curDept1 = in.nextInt();
-
-                Function<Employee, String[]> mainInfo = t ->
-                        new String[]{t.getGivenName(), t.getSurName(), String.valueOf(t.getDept())};
-
-                Consumer<String[]> makeIt = t ->
-                        System.out.println("Given Name: " + t[0] + ", Surname: " + t[1] + ", Dept: " + t[2]);
-
-                employeeList.stream().forEach(t -> makeIt.accept(mainInfo.apply(t)));
 
                 for (Employee e : employeeList) {
                     if (e.getDept() == curDept1)

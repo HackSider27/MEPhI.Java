@@ -18,6 +18,7 @@ public class Employee {
     private String city;
     private String state; //область
     private int code; //код области
+    private int salary;
 
     /*Constructors*/
     private Employee(Builder builder) {
@@ -33,6 +34,7 @@ public class Employee {
         city = builder.city;
         state = builder.state;
         code = builder.code;
+        salary = builder.salary;
     }
 
     public Employee() {
@@ -48,13 +50,14 @@ public class Employee {
         city = "Neocity";
         state = "Secret";
         code = 1337;
+        salary = 100;
     }
 
     public Employee(String givenName1, String surName1,
-             int age1, Gender gender1, Role role1,
-             int dept1, String eMail1, int phone1,
-             String adress1, String city1,
-             String state1, int code1) {
+                    int age1, Gender gender1, Role role1,
+                    int dept1, String eMail1, int phone1,
+                    String adress1, String city1,
+                    String state1, int code1, int salary1) {
         givenName = givenName1;
         surName = surName1;
         age = age1;
@@ -67,6 +70,7 @@ public class Employee {
         city = city1;
         state = state1;
         code = code1;
+        salary = salary1;
     }
 
     /* Getters*/
@@ -79,11 +83,11 @@ public class Employee {
         return surName;
     }
 
-    public Gender getGender(){
+    public Gender getGender() {
         return gender;
     }
 
-    public int getDept(){
+    public int getDept() {
         return dept;
     }
 
@@ -93,6 +97,10 @@ public class Employee {
 
     public Role getRole() {
         return role;
+    }
+
+    public int getSalary() {
+        return salary;
     }
 
     /*builder*/
@@ -110,6 +118,7 @@ public class Employee {
         private String city;
         private String state;
         private int code;
+        private int salary;
 
         public Builder GivenName(String givenName) {
             this.givenName = givenName;
@@ -171,11 +180,15 @@ public class Employee {
             return this;
         }
 
+        public Builder Salary(int salary) {
+            this.salary = salary;
+            return this;
+        }
+
         public Employee build() {
             return new Employee(this);
         }
     }
-
 
     /*Methods*/
     @Override
@@ -189,14 +202,17 @@ public class Employee {
                 "\n\tEmail: " + eMail +
                 "\n\tPhone: " + phone +
                 "\n\tAdress: " + adress +
-                "\n\tCity, state, code: " + city + ", " + state + ", " + code + "\n\n";
+                "\n\tCity, state, code: " + city + ", " + state + ", " + code +
+                "\n\tSalary: " + salary +
+                "\n";
     }
 
     public static String RandomWord(int length) {
         String rez = new String();
         Random r = new Random();
         char c;
-        for (int i = 0; i < length; i++) {
+        rez += (char) (r.nextInt(26) + 'A');
+        for (int i = 0; i < length - 1; i++) {
             c = (char) (r.nextInt(26) + 'a');
             rez += c;
         }
@@ -210,12 +226,18 @@ public class Employee {
         for (int i = 0; i < 10; i++) {
             Supplier another_one =
                     () -> new Builder().GivenName(RandomWord(5))
-                    .SurName(RandomWord(6)).Age(r.nextInt(65))
-                    .Gender(Gender.getRandomGender()).Role(Role.getRandomRole())
-                    .Dept(r.nextInt(5)).eMail(RandomWord(10))
-                    .Phone(r.nextInt(1000000000) + 800000000)
-                    .Adress(RandomWord(10)).City(RandomWord(7))
-                    .State(RandomWord(6)).Code(r.nextInt(10)).build();
+                            .SurName(RandomWord(6))
+                            .Age(r.nextInt(65))
+                            .Gender(Gender.getRandomGender())
+                            .Role(Role.getRandomRole())
+                            .Dept(r.nextInt(5))
+                            .eMail(RandomWord(10))
+                            .Phone(r.nextInt(1000000000) + 800000000)
+                            .Adress(RandomWord(10))
+                            .City(RandomWord(7))
+                            .State(RandomWord(6))
+                            .Code(r.nextInt(10)).Salary(r.nextInt(500))
+                            .build();
 
             employeeList.add((Employee) another_one.get());
         }

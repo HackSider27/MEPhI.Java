@@ -12,9 +12,9 @@ public class MapSalary {
 
 
     /*Methods*/
-    public MapSalary(List<Employee> list) {
+    public MapSalary(List<Employee> e) {
         this.salary = new LinkedHashMap<>();
-        for (Employee employee : list) {
+        for (Employee employee : e) {
             salary.put(employee.getGivenName(), 0);
         }
     }

@@ -10,16 +10,17 @@ public class SomeGoodMethods4 {
      * @param e - list of a type like "List<Employee>"
      * @return string of a result
      */
-    public static String SumAges(List<Employee> e) {
+    public static String sumAges(List<Employee> e) {
         return "The sum of list`s ages is: " + e.stream().mapToInt(Employee::getAge).sum() + "\n";
     }
 
     /**
      * Average value of full list ages
+     *
      * @param e - list of a type like "List<Employee>"
      * @return string of a result
      */
-    public static String AveAges(List<Employee> e) {
+    public static String aveAges(List<Employee> e) {
         return "The average of all employees` ages is: " + e.stream().mapToInt(Employee::getAge).average() + "\n";
     }
 
@@ -29,7 +30,7 @@ public class SomeGoodMethods4 {
      * @param e - list of a type like "List<Employee>"
      * @return string of a result
      */
-    public static String AveSalary(List<Employee> e) {
+    public static String aveSalary(List<Employee> e) {
         return "The average of all employees` salaries is: "
                 + e.stream().mapToInt(Employee::getSalary).average().getAsDouble() + "\n";
     }
@@ -40,7 +41,7 @@ public class SomeGoodMethods4 {
      * @param e - list of a type like "List<Employee>"
      * @return string of a result
      */
-    public static String MinAndMaxAges(List<Employee> e) {
+    public static String minAndMaxAges(List<Employee> e) {
         return "Min Ages are: " + e.stream().mapToInt(Employee::getAge).min().getAsInt() + "\n" +
                 "Max Ages are: " + e.stream().mapToInt(Employee::getAge).max().getAsInt() + "\n";
     }
@@ -48,20 +49,23 @@ public class SomeGoodMethods4 {
     /**
      * Min and max of lists` department
      */
-    public static String MinAndMaxDept(List<Employee> e) {
+    public static String minAndMaxDept(List<Employee> e) {
         return "Min dept are: " + e.stream().mapToInt(Employee::getDept).min().getAsInt() + "\n" +
                 "Max dept are: " + e.stream().mapToInt(Employee::getDept).max().getAsInt() + "\n";
     }
 
-    public static void AllAges(List<Employee> e) {
+    public static void allAges(List<Employee> e) {
         Consumer<Employee> printEmployee =
                 empl -> System.out.print(empl.getGivenName() + " " + empl.getSurName() + ":  ");
 
         System.out.println("List of a employees` ages: ");
-        e.stream().peek(printEmployee).map(Employee::getAge).forEach(System.out::println);
+        e.stream()
+                .peek(printEmployee)
+                .map(Employee::getAge)
+                .forEach(System.out::println);
     }
 
-    public static void Name_and_SurName(List<Employee> e) {
+    public static void name_and_SurName(List<Employee> e) {
         List<String> Names = e.stream().map(Employee::getGivenName).collect(Collectors.toList());
         List<String> SurNames = e.stream().map(Employee::getSurName).collect(Collectors.toList());
         for (int i = 0; i < Names.size(); i++) {
@@ -70,7 +74,7 @@ public class SomeGoodMethods4 {
         System.out.println();
     }
 
-    public static void SumSalary(List<Employee> e) {
+    public static void sumSalary(List<Employee> e) {
         AtomicInteger sumSalary = new AtomicInteger();
         AtomicInteger Employees = new AtomicInteger();
 
@@ -81,15 +85,16 @@ public class SomeGoodMethods4 {
         }
 
         System.out.println("List of salary up to 120:");
-        s.getSalary().values().stream()
-                .peek(i -> sumSalary.addAndGet(i)) //+=
-                .filter(i -> i > 120)
-                .peek(i -> Employees.addAndGet(1)) //+=
+        e.stream()
+                .peek(i -> System.out.println("Salary: " + i.getSalary() + "\n"))
+                .filter(i -> i.getSalary() > 120)
                 .forEach(System.out::println);
 
 
-        System.out.println("\nSalary of composition of employees (by peek): " + sumSalary
-                + "\nAnd number of employees: " + Employees);
+        System.out.println("n\nAnd number of employees: " +
+                e.stream()
+                        .filter(i -> i.getSalary() > 120)
+                        .count());
 
         System.out.println("Salary of composition of employees (by sum): "
                 + e.stream().mapToInt(Employee::getSalary).sum());
@@ -100,31 +105,31 @@ public class SomeGoodMethods4 {
         System.out.println(e.stream()
                 .filter(i -> i.getRole() == Role.EXECUTIVE)
                 .findFirst()
-                .get());
+                .orElse(null));
     }
 
     public static void firstSalaryUp100(List<Employee> e) {
         System.out.println("The first employee`s salary up to 100:");
         System.out.println(e.stream()
-                .filter(i -> i.getSalary() > 100)
+                .filter(i -> i.getSalary() >= 100)
                 .findFirst()
-                .get());
+                .orElse(null));
     }
 
-    public static void lab4(){
+    public static void lab4() {
         List<Employee> employeeList = Employee.createShortList();
 
-        Name_and_SurName(employeeList);
+        name_and_SurName(employeeList);
 
-        System.out.println(SumAges(employeeList));
-        System.out.println(AveSalary(employeeList));
-        System.out.println(MinAndMaxAges(employeeList));
-        System.out.println(MinAndMaxDept(employeeList));
+        System.out.println(sumAges(employeeList));
+        System.out.println(aveAges(employeeList));
+        System.out.println(minAndMaxDept(employeeList));
+        System.out.println(minAndMaxDept(employeeList));
 
-        AllAges(employeeList);
+        allAges(employeeList);
         System.out.println();
 
-        SumSalary(employeeList);
+        sumSalary(employeeList);
         System.out.println();
 
         firstExecutive(employeeList);

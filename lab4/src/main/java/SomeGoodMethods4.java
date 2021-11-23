@@ -55,6 +55,8 @@ public class SomeGoodMethods4 {
     }
 
     public static void allAges(List<Employee> e) {
+        if(e.equals(null))
+
         Consumer<Employee> printEmployee =
                 empl -> System.out.print(empl.getGivenName() + " " + empl.getSurName() + ":  ");
 

@@ -4,22 +4,7 @@ import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 
-import static java.time.Month.*;
-
-import static java.time.temporal.TemporalAdjuster.*;
 import static java.lang.System.out;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.Locale;
-
-import static java.time.DayOfWeek.*;
-import static java.time.Month.*;
-import static java.time.temporal.TemporalAdjusters.*;
-import static java.time.temporal.ChronoUnit.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -27,7 +12,8 @@ public class Main {
         LocalDate dDateOfLincoln = LocalDate.of(1855, 4, 15);
 
         int yearsOfLincoln = dDateOfLincoln.getYear() - bDateOfLincoln.getYear();
-        out.println("How old when he died?\n" + "Lincoln was " + yearsOfLincoln + ", when he died");
+        out.println("How old when he died?\n" +yearsOfLincoln + "\nLincoln was "
+                + "He lived " + ChronoUnit.DAYS.between(bDateOfLincoln, dDateOfLincoln) + " days");
         out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 
 
@@ -39,7 +25,7 @@ public class Main {
         else out.println("No, he wasn`t born in a leap year\nThere are 365 days");
 
         int decadesOfCumberbatch = (LocalDate.now().getYear() - bDateOfCumberbatch.getYear()) / 10;
-        out.println("How many decades old is he?\n" + "Cumberbatch is " + decadesOfCumberbatch + " decades");
+        out.println("How many decades old is he?\n" + "Cumberbatch is " + decadesOfCumberbatch + " decades old");
         DayOfWeek day = LocalDate.of(bDateOfCumberbatch.getYear() + 21, 6, 19).getDayOfWeek();
         out.println("The day of the week on his 21st birthday was " + day);
         out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
@@ -80,22 +66,26 @@ public class Main {
         out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 
 
-        ZonedDateTime zdt1 =
-                ZonedDateTime
-                        .of(2021, 9, 14, 0, 0, 0, 0, ZoneId.of("Europe/Moscow"));
-        out.println("This date is " + zdt1.getDayOfMonth() + " of " + zdt1.getMonth());
+        LocalDateTime zeroPoint = LocalDate.of(LocalDate.now().getYear(), Month.SEPTEMBER, 1).atStartOfDay();
+        //LocalDateTime start = (LocalDateTime) TemporalAdjusters.firstInMonth(DayOfWeek.TUESDAY).adjustInto(zeroPoint);
+        LocalDateTime start = (LocalDateTime) TemporalAdjusters.dayOfWeekInMonth(2, DayOfWeek.TUESDAY).adjustInto(zeroPoint);
+        LocalDateTime finish = LocalDate.of(LocalDate.now().getYear() + 1, Month.JUNE, 25).atStartOfDay();
 
-        ZonedDateTime zdt2 =
-                ZonedDateTime
-                        .of(2022, 5, 25, 0, 0, 0, 0, ZoneId.of("Europe/Moscow"));
+        long daysInSchool = Duration.between(start.atOffset(ZoneOffset.UTC), finish.atOffset(ZoneOffset.UTC)).toDays();
 
-        int rez = 365 - zdt1.getDayOfYear() + zdt2.getDayOfYear() - 2 * 7 - 2 * 7 - 2 * (12 + zdt2.getMonthValue() - zdt1.getMonthValue() - 4);
-        out.println("The hole number of school days are: " + rez);
+        System.out.println("The date is: " + start.with(TemporalAdjusters.dayOfWeekInMonth(2, DayOfWeek.TUESDAY)) + '\n'
+                + "And days in school: " + (((daysInSchool / 7) - 4) * 5 + 4));
         out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 
 
-        out.println("A meeting is schedule for 1:30 PM next Tuesday. If today is Tuesday, assume it is today.\n" +
-                "What is the time of the week's meetings?\n" + "what does it mean?");
+        out.println("A meeting is schedule for 1:30 PM next Tuesday. If today is Tuesday, assume it is today.\n");
+        LocalTime meetingDay = LocalTime.of(13, 30);
+        if (LocalDateTime.now().getDayOfWeek().equals(DayOfWeek.TUESDAY)) {
+            System.out.println("What is the time of the week's meetings? Today at " + meetingDay);
+        }else {
+            System.out.println("What is the time of the week's meetings? Next tuesday at " + meetingDay);
+        }
+
         out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 
 
@@ -113,7 +103,7 @@ public class Main {
 
         ZonedDateTime flight456 =
                 ZonedDateTime
-                        .of(2014, 5, 28, 21, 30, 0, 0, ZoneId.of("America/Los_Angeles"));
+                        .of(2014, 5, 28, 22, 30, 0, 0, ZoneId.of("America/Los_Angeles"));
         ZonedDateTime meeting =
                 ZonedDateTime
                         .of(2014, 5, 30, 9, 0, 0, 0, ZoneId.of("Asia/Calcutta"));
@@ -127,12 +117,17 @@ public class Main {
         out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 
 
-        flight123 =
-                ZonedDateTime
-                        .of(2014, 9, 1, 22, 30, 0, 0, ZoneId.of("America/Los_Angeles"));
-        ZonedDateTime dayAndTimeBOS = flight123.plusHours(5).plusMinutes(30).withZoneSameInstant(ZoneId.of("America/New_York"));
-        out.println("The flight arrives in Boston in " + dayAndTimeBOS.format(format));
-        out.println("It`ll be a new day and the flight arrives in Boston...)");
+        LocalDateTime startSFO = LocalDate.of(2014, Month.NOVEMBER, 1).atTime(22, 30);
+        ZonedDateTime flightSFO = ZonedDateTime.of(startSFO, ZoneId.of("America/Los_Angeles"));
+        LocalTime flightTime2 = LocalTime.of(5, 30);
+        System.out.println("The flight arrives in Boston in " +
+                flightSFO
+                        .plusHours(flightTime2.getHour())
+                        .plusMinutes(flightTime2.getMinute())
+                        .toOffsetDateTime()
+                        .atZoneSameInstant(ZoneId.of("America/New_York"))
+                        .toLocalDateTime()
+        );
         out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     }
 }

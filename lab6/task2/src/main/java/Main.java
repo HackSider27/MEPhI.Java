@@ -54,7 +54,6 @@ class ShoppingCart implements Serializable {
         }
     }
 
-
     public int getItemCount() {
         return itemCount;
     }

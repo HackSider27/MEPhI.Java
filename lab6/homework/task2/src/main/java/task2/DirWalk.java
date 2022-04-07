@@ -12,14 +12,14 @@ public class DirWalk {
         // Add try with resources here
         try (Stream<Path> files = Files.walk(Paths.get(".")).filter(Files::isDirectory)) {
             System.out.println("\n=== Dir walk ===");
-
+            int a;
             // Print directory list here
             files.forEach(System.out::println);
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
+        
         try (Stream<Path> files = Files.walk(Paths.get(".")).filter(Files::isDirectory)) {
 
             System.out.println("\n=== Dir build ===");
